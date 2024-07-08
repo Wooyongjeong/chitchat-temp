@@ -24,10 +24,14 @@ public class Stock extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Sector sector;
 
+    @Enumerated(value = EnumType.STRING)
+    private Exchange exchange;
+
     @Builder
-    private Stock(String name, String ticker, Sector sector) {
+    private Stock(String name, String ticker, Sector sector, Exchange exchange) {
         this.name = name;
         this.ticker = ticker;
         this.sector = sector;
+        this.exchange = exchange;
     }
 }

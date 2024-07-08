@@ -37,7 +37,7 @@ public class DataInitializer {
         Stock stock = Stock.builder()
                 .name("NVIDIA")
                 .ticker("NVDA")
-                .sector(Sector.TECHNOLOGY)
+                .sector(Sector.INFORMATION_TECHNOLOGY)
                 .build();
         stockRepository.save(stock);
 
