@@ -1,8 +1,10 @@
 package com.stock.chitchat.post;
 
+import com.stock.chitchat.common.CurrentUser;
 import com.stock.chitchat.post.dto.PostCreateUpdateRequestDTO;
 import com.stock.chitchat.post.dto.PostDetailResponseDTO;
 import com.stock.chitchat.post.dto.PostPageResponseDTO;
+import com.stock.chitchat.user.User;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
@@ -22,9 +24,9 @@ public class PostController {
     public ResponseEntity<Long> createPost(
             @RequestBody PostCreateUpdateRequestDTO requestDTO,
             @PathVariable("stockId") Long stockId,
-            @AuthenticationPrincipal UserDetails userDetails
+            @CurrentUser User user
     ) {
-        Long postId = postService.create(requestDTO, stockId, userDetails);
+        Long postId = postService.create(requestDTO, stockId, user);
         return ResponseEntity.ok(postId);
     }
 
@@ -49,9 +51,9 @@ public class PostController {
     public ResponseEntity<String> updatePost(
             @PathVariable("postId") Long postId,
             @RequestBody PostCreateUpdateRequestDTO requestDTO,
-            @AuthenticationPrincipal UserDetails userDetails
+            @CurrentUser User user
     ) {
-        postService.updatePost(postId, requestDTO, userDetails);
+        postService.updatePost(postId, requestDTO, user);
         return ResponseEntity.ok("success");
     }
 }

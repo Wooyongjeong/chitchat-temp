@@ -2,12 +2,12 @@ package com.stock.chitchat.comment;
 
 import com.stock.chitchat.comment.dto.CommentCreateUpdateRequestDTO;
 import com.stock.chitchat.comment.dto.CommentPageResponseDTO;
+import com.stock.chitchat.common.CurrentUser;
+import com.stock.chitchat.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -20,9 +20,9 @@ public class CommentController {
     public ResponseEntity<Long> createComment(
             @PathVariable("postId") Long postId,
             @RequestBody CommentCreateUpdateRequestDTO requestDTO,
-            @AuthenticationPrincipal UserDetails userDetails
+            @CurrentUser User user
     ) {
-        Long commentId = commentService.createComment(postId, requestDTO, userDetails);
+        Long commentId = commentService.createComment(postId, requestDTO, user);
         return ResponseEntity.ok(commentId);
     }
 
@@ -39,9 +39,9 @@ public class CommentController {
     public ResponseEntity<String> updateComment(
             @PathVariable("commentId") Long commentId,
             @RequestBody CommentCreateUpdateRequestDTO requestDTO,
-            @AuthenticationPrincipal UserDetails userDetails
+            @CurrentUser User user
     ) {
-        commentService.updateComment(commentId, requestDTO, userDetails);
+        commentService.updateComment(commentId, requestDTO, user);
         return ResponseEntity.ok("success");
     }
 }

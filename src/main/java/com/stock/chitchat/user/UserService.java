@@ -38,4 +38,8 @@ public class UserService {
         User user = findUserByEmail(email);
         return UserDetailResponseDTO.fromEntity(user);
     }
+
+    public UserDetailResponseDTO findUserDetailOf(User user) {
+        return UserDetailResponseDTO.fromEntity(user);
+    }
 }

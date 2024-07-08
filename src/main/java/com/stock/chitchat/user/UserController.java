@@ -1,14 +1,10 @@
 package com.stock.chitchat.user;
 
+import com.stock.chitchat.common.CurrentUser;
 import com.stock.chitchat.user.dto.JoinDTO;
-import com.stock.chitchat.user.dto.LoginDTO;
 import com.stock.chitchat.user.dto.UserDetailResponseDTO;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -27,9 +23,9 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<UserDetailResponseDTO> getUserDetail(
-            @AuthenticationPrincipal UserDetails userDetails
+            @CurrentUser User user
     ) {
-        UserDetailResponseDTO data = userService.findUserDetailBy(userDetails);
+        UserDetailResponseDTO data = userService.findUserDetailOf(user);
         return ResponseEntity.ok(data);
     }
 }

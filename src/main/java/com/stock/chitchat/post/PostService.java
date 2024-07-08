@@ -22,7 +22,6 @@ import java.util.List;
 public class PostService {
     private final PostRepository postRepository;
     private final StockService stockService;
-    private final UserService userService;
 
     public Post findPostById(Long postId) {
         return postRepository.findById(postId)
@@ -33,13 +32,9 @@ public class PostService {
     public Long create(
             PostCreateUpdateRequestDTO requestDTO,
             Long stockId,
-            UserDetails userDetails
+            User user
     ) {
-        if (null == userDetails) {
-            throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
-        }
         Stock stock = stockService.findStockById(stockId);
-        User user = userService.findUserByEmail(userDetails.getUsername());
         Post post = requestDTO.toEntity(user, stock);
         Post savedPost = postRepository.save(post);
         return savedPost.getId();
@@ -62,11 +57,7 @@ public class PostService {
         return PostDetailResponseDTO.fromEntity(post);
     }
 
-    public void updatePost(Long postId, PostCreateUpdateRequestDTO requestDTO, UserDetails userDetails) {
-        if (null == userDetails) {
-            throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
-        }
-        User user = userService.findUserByEmail(userDetails.getUsername());
+    public void updatePost(Long postId, PostCreateUpdateRequestDTO requestDTO, User user) {
         Post post = findPostById(postId);
         if (!user.getId().equals(post.getUser().getId())) {
             throw new IllegalArgumentException("글쓴이만 수정할 수 있습니다.");
